@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pre-launch": "tsx scripts/pre-launch-check.ts"
   },
   "dependencies": {
     "@serwist/next": "^9.5.6",
@@ -19,7 +20,8 @@
     "next": "16.1.6",
     "next-mdx-remote-client": "^2.1.8",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
