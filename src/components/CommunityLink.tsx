@@ -1,6 +1,6 @@
 export function CommunityLink() {
   return (
-    <div className="rounded-lg border border-blue-100 bg-blue-50 p-4">
+    <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 print:hidden">
       <p className="text-sm font-medium text-blue-900">
         You&apos;re not alone in this process
       </p>

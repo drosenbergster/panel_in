@@ -1,21 +1,17 @@
 {
-  "name": "Panel In",
-  "short_name": "PanelIn",
-  "description": "Oregon therapist credentialing guidance",
+  "name": "Panel In — Oregon Therapist Credentialing",
+  "short_name": "Panel In",
+  "description": "Step-by-step credentialing guidance for Oregon therapists joining Medicaid CCO networks.",
   "start_url": "/start",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#171717",
+  "theme_color": "#111827",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }

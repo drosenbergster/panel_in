@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "prebuild": "tsx scripts/validate-content.ts && tsx scripts/generate-routes.ts",
-    "build": "next build",
+    "build": "next build --webpack",
     "postbuild": "next-sitemap",
     "start": "next start",
     "test": "vitest run",
@@ -14,6 +14,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@serwist/next": "^9.5.6",
     "gray-matter": "^4.0.3",
     "next": "16.1.6",
     "next-mdx-remote-client": "^2.1.8",
@@ -36,6 +37,7 @@
     "next-sitemap": "^4.2.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "serwist": "^9.5.6",
     "tailwindcss": "^4",
     "tsx": "^4.19.3",
     "typescript": "^5",

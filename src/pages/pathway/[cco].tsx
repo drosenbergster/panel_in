@@ -40,7 +40,7 @@ function ChecklistProgressBar({ slug, totalSteps }: { slug: string; totalSteps: 
   const pct = Math.round((completed / totalSteps) * 100)
 
   return (
-    <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+    <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4 print:hidden">
       <div className="flex items-center justify-between text-sm">
         <span className="font-medium text-gray-700">
           {completed} of {totalSteps} steps complete
@@ -104,7 +104,7 @@ export default function CcoPage({ compiledSource, frontmatter, totalSteps }: Cco
 
       <ChecklistProvider slug={frontmatter.slug}>
         <div className="py-8">
-          <nav className="mb-4 text-sm text-gray-500">
+          <nav className="mb-4 text-sm text-gray-500 print:hidden">
             <Link
               href="/start"
               className="underline decoration-gray-300 underline-offset-2 hover:text-gray-700"

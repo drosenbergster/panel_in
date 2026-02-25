@@ -55,5 +55,11 @@ _bmad-output/
 # generated sitemaps (built by next-sitemap)
 public/sitemap*.xml
 
-# misc binary assets
+# generated service worker (built by serwist)
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
+
+# misc binary assets (except icons)
 *.png
+!public/icons/*.png

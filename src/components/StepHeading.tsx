@@ -34,7 +34,7 @@ export function StepHeading(props: HTMLAttributes<HTMLHeadingElement>) {
       <h2 className="group flex items-center gap-3" {...restProps}>
         <button
           onClick={() => ctx.toggle(itemId)}
-          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md border-2 transition-colors ${
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md border-2 transition-colors print:hidden ${
             complete
               ? 'border-green-500 bg-green-500 text-white'
               : 'border-gray-300 bg-white text-transparent hover:border-gray-400'
@@ -63,7 +63,7 @@ export function StepHeading(props: HTMLAttributes<HTMLHeadingElement>) {
         </span>
         <button
           onClick={() => setExpanded(!expanded)}
-          className={`shrink-0 rounded p-1 text-xs transition-colors ${
+          className={`shrink-0 rounded p-1 text-xs transition-colors print:hidden ${
             hasNote
               ? 'text-blue-600 hover:bg-blue-50'
               : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600'

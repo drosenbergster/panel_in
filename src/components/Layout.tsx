@@ -14,7 +14,7 @@ export function Layout({ children }: LayoutProps) {
       >
         Skip to main content
       </a>
-      <header className="border-b border-gray-200 bg-white">
+      <header className="border-b border-gray-200 bg-white print:hidden">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4 sm:px-6">
           <Link href="/" className="text-xl font-semibold text-gray-900">
             Panel In
@@ -40,7 +40,7 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
-      <footer className="border-t border-gray-200 bg-white">
+      <footer className="border-t border-gray-200 bg-white print:hidden">
         <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
           <p className="text-center text-sm text-gray-500">
             Panel In — Oregon therapist credentialing guidance.
