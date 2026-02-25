@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { OverwhelmMitigation } from './OverwhelmMitigation'
 import { PrerequisiteSection } from './PrerequisiteSection'
 import { CcoCard } from './CcoCard'
@@ -165,13 +167,16 @@ export function PathwayDashboard({
 
       {wizardState.payers.includes('medicare') && (
         <section className="mt-6">
-          <div className="rounded-lg border border-gray-200 p-4">
+          <div className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300">
             <span aria-hidden="true" className="text-sm font-semibold text-gray-500">
               {pathway.length + 1}.
             </span>{' '}
-            <span className="font-medium text-gray-900">
+            <Link
+              href="/pathway/medicare-pecos"
+              className="font-medium text-gray-900 underline decoration-gray-300 underline-offset-2 hover:decoration-gray-900"
+            >
               Medicare Provider Enrollment (PECOS)
-            </span>
+            </Link>
             <span className="ml-2 rounded bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
               partial
             </span>
