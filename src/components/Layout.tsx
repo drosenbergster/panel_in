@@ -26,6 +26,12 @@ export function Layout({ children }: LayoutProps) {
             >
               My Pathway
             </Link>
+            <Link
+              href="/quick-codes"
+              className="inline-flex min-h-[44px] items-center rounded-md px-3 py-2 text-gray-600 transition-colors hover:text-gray-900"
+            >
+              Quick Codes
+            </Link>
           </nav>
         </div>
       </header>
