@@ -49,8 +49,23 @@ function StyledTr(props: HTMLAttributes<HTMLTableRowElement>) {
   return <tr className="border-t border-gray-100 even:bg-gray-50/50" {...props} />
 }
 
+function isSafeUrl(url: string | undefined): boolean {
+  if (!url) return false
+  try {
+    const parsed = new URL(url, 'https://panelin.org')
+    return ['http:', 'https:', 'mailto:'].includes(parsed.protocol)
+  } catch {
+    return false
+  }
+}
+
 function ExternalLink(props: AnchorHTMLAttributes<HTMLAnchorElement>) {
   const { href, children, ...rest } = props
+
+  if (!isSafeUrl(href)) {
+    return <span {...rest}>{children}</span>
+  }
+
   const isExternal = href?.startsWith('http')
 
   if (isExternal) {

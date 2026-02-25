@@ -11,7 +11,14 @@ export function getContentBySlug(
   dir: string,
   slug: string
 ): { source: string; frontmatter: ContentFrontmatter } {
+  if (/[^a-z0-9-]/.test(slug)) {
+    throw new Error(`Invalid slug: ${slug}`)
+  }
   const fullPath = path.join(CONTENT_ROOT, dir, `${slug}.mdx`)
+  const resolved = path.resolve(fullPath)
+  if (!resolved.startsWith(CONTENT_ROOT)) {
+    throw new Error(`Path traversal blocked: ${slug}`)
+  }
   const raw = fs.readFileSync(fullPath, 'utf-8')
   const { content, data } = matter(raw)
   return { source: content, frontmatter: data as ContentFrontmatter }
