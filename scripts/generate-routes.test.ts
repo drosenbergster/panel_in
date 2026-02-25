@@ -80,12 +80,19 @@ describe('credentialing parent assertions', () => {
 })
 
 describe('cco-content-index', () => {
-  it('contains entries for all 15 CCOs plus Medicare', () => {
-    expect(Object.keys(ccoContentIndex).length).toBeGreaterThanOrEqual(16)
+  it('contains exactly 16 entries (15 CCOs + Medicare)', () => {
+    expect(Object.keys(ccoContentIndex)).toHaveLength(16)
   })
 
-  it('includes medicare entry', () => {
+  it('includes medicare entry with checklist', () => {
     expect(ccoContentIndex['medicare']).toBeDefined()
     expect(ccoContentIndex['medicare'].checklists).toContain('medicare-pecos')
+  })
+
+  it('medicare does not appear in county-cco-map', () => {
+    const allSlugs = Object.values(countyCcoMap)
+      .flat()
+      .map((c) => c.slug)
+    expect(allSlugs).not.toContain('medicare-pecos')
   })
 })
