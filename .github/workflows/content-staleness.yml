@@ -1,0 +1,98 @@
+name: Content Staleness Check
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Every Monday at 9am UTC
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check-staleness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check content freshness
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const matter = require('gray-matter');
+
+            const contentDir = path.join(process.cwd(), 'content');
+            const now = Date.now();
+            const approaching = [];
+            const overdue = [];
+
+            function walkDir(dir) {
+              if (!fs.existsSync(dir)) return;
+              for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                const fullPath = path.join(dir, entry.name);
+                if (entry.isDirectory()) {
+                  walkDir(fullPath);
+                } else if (entry.name.endsWith('.mdx')) {
+                  const raw = fs.readFileSync(fullPath, 'utf-8');
+                  const { data } = matter(raw);
+                  const lastVerified = new Date(data.last_verified);
+                  const reviewDays = data.review_interval_days || 90;
+                  const deadline = lastVerified.getTime() + reviewDays * 24 * 60 * 60 * 1000;
+                  const daysUntil = Math.round((deadline - now) / (24 * 60 * 60 * 1000));
+                  const relPath = path.relative(process.cwd(), fullPath);
+
+                  if (daysUntil < 0) {
+                    overdue.push({ file: relPath, title: data.title, daysOverdue: Math.abs(daysUntil), sourceUrl: data.source_url });
+                  } else if (daysUntil <= 14) {
+                    approaching.push({ file: relPath, title: data.title, daysRemaining: daysUntil, lastVerified: data.last_verified });
+                  }
+                }
+              }
+            }
+
+            walkDir(contentDir);
+
+            // Check existing issues to avoid duplicates
+            const { data: existingIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'content-review,content-overdue',
+              per_page: 100,
+            });
+            const existingTitles = new Set(existingIssues.map(i => i.title));
+
+            for (const item of overdue) {
+              const title = `Content overdue: ${item.title}`;
+              if (existingTitles.has(title)) continue;
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                labels: ['content-overdue'],
+                body: `## Content Review Overdue\n\n- **File:** ${item.file}\n- **Title:** ${item.title}\n- **Days overdue:** ${item.daysOverdue}\n- **Source URL:** ${item.sourceUrl}\n\nPlease verify the content against the source and update \`last_verified\` in the frontmatter.`,
+              });
+            }
+
+            for (const item of approaching) {
+              const title = `Content review approaching: ${item.title}`;
+              if (existingTitles.has(title)) continue;
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                labels: ['content-review'],
+                body: `## Content Review Approaching\n\n- **File:** ${item.file}\n- **Title:** ${item.title}\n- **Days remaining:** ${item.daysRemaining}\n- **Last verified:** ${item.lastVerified}\n\nPlease plan to verify this content before the review deadline.`,
+              });
+            }
+
+            console.log(`Checked content: ${overdue.length} overdue, ${approaching.length} approaching review`);
