@@ -26,13 +26,14 @@ const PAYER_OPTIONS = [
 
 interface IntakeFormProps {
   onComplete: (state: WizardState) => void
+  initialValues?: WizardState
 }
 
-export function IntakeForm({ onComplete }: IntakeFormProps) {
+export function IntakeForm({ onComplete, initialValues }: IntakeFormProps) {
   const [step, setStep] = useState(1)
-  const [licenseType, setLicenseType] = useState('')
-  const [counties, setCounties] = useState<string[]>([])
-  const [payers, setPayers] = useState<string[]>([])
+  const [licenseType, setLicenseType] = useState(initialValues?.licenseType ?? '')
+  const [counties, setCounties] = useState<string[]>(initialValues?.counties ?? [])
+  const [payers, setPayers] = useState<string[]>(initialValues?.payers ?? [])
   const fieldsetRef = useRef<HTMLFieldSetElement>(null)
 
   useEffect(() => {
