@@ -10,17 +10,22 @@ import { findMdxFiles } from './lib/find-mdx-files'
 const CONTENT_DIR = path.resolve(process.cwd(), 'content')
 const OUTPUT_DIR = path.resolve(process.cwd(), 'src', 'data')
 
-function loadAllFrontmatter(): { file: string; data: ContentFrontmatter }[] {
+function countStepHeadings(content: string): number {
+  const matches = content.match(/^##\s+(Step|Stage)\s+\d+/gim)
+  return matches ? matches.length : 0
+}
+
+function loadAllFrontmatter(): { file: string; data: ContentFrontmatter; stepCount: number }[] {
   const files = findMdxFiles(CONTENT_DIR)
   return files.map((file) => {
     const raw = fs.readFileSync(file, 'utf-8')
-    const { data } = matter(raw)
-    return { file, data: data as ContentFrontmatter }
+    const { data, content } = matter(raw)
+    return { file, data: data as ContentFrontmatter, stepCount: countStepHeadings(content) }
   })
 }
 
 function generateCountyCcoMap(
-  items: { file: string; data: ContentFrontmatter }[]
+  items: { file: string; data: ContentFrontmatter; stepCount: number }[]
 ): Record<string, CcoData[]> {
   const map: Record<string, CcoData[]> = {}
   const ccoItems = items.filter((i) => i.data.content_type === 'cco_checklist')
@@ -32,6 +37,7 @@ function generateCountyCcoMap(
       counties: item.data.counties ?? [],
       credentialing_parent: item.data.credentialing_parent,
       confidence: item.data.confidence,
+      total_steps: item.data.total_steps ?? (item.stepCount || undefined),
     }
 
     for (const county of ccoData.counties) {
@@ -47,7 +53,7 @@ function generateCountyCcoMap(
 }
 
 function generateCcoContentIndex(
-  items: { file: string; data: ContentFrontmatter }[]
+  items: { file: string; data: ContentFrontmatter; stepCount: number }[]
 ): Record<string, { checklists: string[]; guides: string[] }> {
   const index: Record<string, { checklists: string[]; guides: string[] }> = {}
 
@@ -81,7 +87,7 @@ const PREREQUISITE_ORDER = [
 ]
 
 function generatePrerequisites(
-  items: { file: string; data: ContentFrontmatter }[]
+  items: { file: string; data: ContentFrontmatter; stepCount: number }[]
 ): PrerequisiteEntry[] {
   const prereqs = items
     .filter((i) => i.data.prerequisite === true)

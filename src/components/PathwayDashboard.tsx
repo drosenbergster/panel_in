@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { OverwhelmMitigation } from './OverwhelmMitigation'
 import { PrerequisiteSection } from './PrerequisiteSection'
 import { CcoCard } from './CcoCard'
+import { useChecklistProgress } from '@/hooks/useChecklistProgress'
 
 import type { CcoData, WizardState } from '@/types/content'
 
@@ -84,6 +85,7 @@ export function PathwayDashboard({
   pathway,
   onChangeSelections,
 }: PathwayDashboardProps) {
+  const { completedCount } = useChecklistProgress()
   const groups = groupByCredentialing(pathway)
   const coveredCounties = countTotalCoveredCounties(pathway, wizardState.counties)
   const totalApps =
@@ -143,6 +145,7 @@ export function PathwayDashboard({
                         cco={cco}
                         index={startIdx + j}
                         selectedCounties={wizardState.counties}
+                        completedSteps={completedCount(`${cco.slug}:`)}
                       />
                     ))}
                   </ul>
@@ -158,6 +161,7 @@ export function PathwayDashboard({
                   cco={group.ccos[0]}
                   index={idx}
                   selectedCounties={wizardState.counties}
+                  completedSteps={completedCount(`${group.ccos[0].slug}:`)}
                 />
               </ul>
             )

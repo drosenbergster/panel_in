@@ -20,6 +20,7 @@ export interface ContentFrontmatter {
   source_type: SourceType
   depends_on?: string[]
   credentialing_parent?: string
+  total_steps?: number
 }
 
 export interface WizardState {
@@ -38,4 +39,5 @@ export interface CcoData {
   counties: string[]
   credentialing_parent?: string
   confidence: ConfidenceLevel
+  total_steps?: number
 }

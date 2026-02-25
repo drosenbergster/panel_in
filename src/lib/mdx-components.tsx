@@ -5,6 +5,7 @@ import { ConfidenceBadge } from '@/components/ConfidenceBadge'
 import { SourceCitation } from '@/components/SourceCitation'
 import { ReportIssueLink } from '@/components/ReportIssueLink'
 import { TimeEstimate } from '@/components/TimeEstimate'
+import { StepHeading } from '@/components/StepHeading'
 
 function StyledTable(props: TableHTMLAttributes<HTMLTableElement>) {
   return (
@@ -43,6 +44,7 @@ function ExternalLink(props: AnchorHTMLAttributes<HTMLAnchorElement>) {
 }
 
 export const mdxComponents: MDXComponents = {
+  h2: StepHeading,
   table: StyledTable,
   a: ExternalLink,
   ConfidenceBadge,

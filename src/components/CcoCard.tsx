@@ -8,12 +8,15 @@ interface CcoCardProps {
   cco: CcoData
   index: number
   selectedCounties: string[]
+  completedSteps?: number
 }
 
-export function CcoCard({ cco, index, selectedCounties }: CcoCardProps) {
+export function CcoCard({ cco, index, selectedCounties, completedSteps = 0 }: CcoCardProps) {
   const matchingCounties = cco.counties.filter((c) =>
     selectedCounties.includes(c)
   )
+  const totalSteps = cco.total_steps ?? 0
+  const hasProgress = totalSteps > 0
 
   return (
     <li className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300">
@@ -46,6 +49,21 @@ export function CcoCard({ cco, index, selectedCounties }: CcoCardProps) {
         {' '}count{matchingCounties.length !== 1 ? 'ies' : 'y'}:{' '}
         {matchingCounties.map(formatCountyName).join(', ')}
       </p>
+      {hasProgress && (
+        <div className="mt-2">
+          <div className="flex items-center gap-2">
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-200">
+              <div
+                className="h-full rounded-full bg-green-500 transition-all duration-300"
+                style={{ width: `${totalSteps > 0 ? (completedSteps / totalSteps) * 100 : 0}%` }}
+              />
+            </div>
+            <span className="text-xs text-gray-500">
+              {completedSteps} of {totalSteps}
+            </span>
+          </div>
+        </div>
+      )}
     </li>
   )
 }
