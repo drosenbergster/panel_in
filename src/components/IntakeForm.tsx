@@ -1,8 +1,10 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
+
+import { formatCountyName } from '@/lib/format'
 
 import type { WizardState } from '@/types/content'
 
-const OREGON_COUNTIES = [
+export const OREGON_COUNTIES = [
   'baker', 'benton', 'clackamas', 'clatsop', 'columbia', 'coos',
   'crook', 'curry', 'deschutes', 'douglas', 'gilliam', 'grant',
   'harney', 'hood river', 'jackson', 'jefferson', 'josephine', 'klamath',
@@ -22,13 +24,6 @@ const PAYER_OPTIONS = [
   { value: 'medicare', label: 'Medicare' },
 ]
 
-function formatCountyName(county: string): string {
-  return county
-    .split(' ')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ')
-}
-
 interface IntakeFormProps {
   onComplete: (state: WizardState) => void
 }
@@ -38,6 +33,13 @@ export function IntakeForm({ onComplete }: IntakeFormProps) {
   const [licenseType, setLicenseType] = useState('')
   const [counties, setCounties] = useState<string[]>([])
   const [payers, setPayers] = useState<string[]>([])
+  const fieldsetRef = useRef<HTMLFieldSetElement>(null)
+
+  useEffect(() => {
+    if (!fieldsetRef.current) return
+    const firstInput = fieldsetRef.current.querySelector('input')
+    firstInput?.focus()
+  }, [step])
 
   const canAdvance =
     (step === 1 && licenseType !== '') ||
@@ -70,7 +72,7 @@ export function IntakeForm({ onComplete }: IntakeFormProps) {
 
   return (
     <div className="py-8">
-      <div className="mb-6 flex items-center gap-2 text-sm text-gray-500">
+      <div className="mb-6 flex items-center gap-2 text-sm text-gray-500" role="status" aria-live="polite">
         {[1, 2, 3].map((s) => (
           <span key={s} className="flex items-center gap-2">
             <span
@@ -91,7 +93,7 @@ export function IntakeForm({ onComplete }: IntakeFormProps) {
       </div>
 
       {step === 1 && (
-        <fieldset>
+        <fieldset ref={fieldsetRef}>
           <legend className="text-xl font-semibold text-gray-900">
             What is your license type?
           </legend>
@@ -129,7 +131,7 @@ export function IntakeForm({ onComplete }: IntakeFormProps) {
       )}
 
       {step === 2 && (
-        <fieldset>
+        <fieldset ref={fieldsetRef}>
           <legend className="text-xl font-semibold text-gray-900">
             Which counties will you serve?
           </legend>
@@ -165,7 +167,7 @@ export function IntakeForm({ onComplete }: IntakeFormProps) {
       )}
 
       {step === 3 && (
-        <fieldset>
+        <fieldset ref={fieldsetRef}>
           <legend className="text-xl font-semibold text-gray-900">
             Which payers are you targeting?
           </legend>

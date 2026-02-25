@@ -9,7 +9,7 @@ import countyCcoMap from '@/data/county-cco-map.json'
 const EMPTY_WIZARD: WizardState = { licenseType: '', counties: [], payers: [] }
 
 export function useWizardState() {
-  const [wizardState, setWizardState] = useLocalStorage<WizardState>('wizardState', EMPTY_WIZARD)
+  const [wizardState, setWizardState, hydrated] = useLocalStorage<WizardState>('wizardState', EMPTY_WIZARD)
 
   const isComplete = wizardState.licenseType !== ''
     && wizardState.counties.length > 0
@@ -24,7 +24,7 @@ export function useWizardState() {
     setWizardState(EMPTY_WIZARD)
   }, [setWizardState])
 
-  return { wizardState, setWizardState, isComplete, pathway, reset }
+  return { wizardState, setWizardState, isComplete, pathway, reset, hydrated }
 }
 
 export function derivePathway(selectedCounties: string[]): CcoData[] {

@@ -3,11 +3,12 @@ import { useCallback } from 'react'
 import { SEOHead } from '@/components/SEOHead'
 import { IntakeForm } from '@/components/IntakeForm'
 import { useWizardState } from '@/hooks/useWizardState'
+import { formatCountyName } from '@/lib/format'
 
 import type { WizardState } from '@/types/content'
 
 export default function StartPage() {
-  const { wizardState, setWizardState, isComplete, pathway, reset } = useWizardState()
+  const { wizardState, setWizardState, isComplete, pathway, reset, hydrated } = useWizardState()
 
   const handleComplete = useCallback(
     (state: WizardState) => {
@@ -15,6 +16,21 @@ export default function StartPage() {
     },
     [setWizardState]
   )
+
+  if (!hydrated) {
+    return (
+      <>
+        <SEOHead
+          title="My Pathway"
+          description="Your personalized Oregon therapist credentialing pathway."
+          path="/start"
+        />
+        <div className="flex min-h-[50vh] items-center justify-center">
+          <p className="text-sm text-gray-500">Loading your pathway...</p>
+        </div>
+      </>
+    )
+  }
 
   if (!isComplete) {
     return (
@@ -93,14 +109,7 @@ export default function StartPage() {
                 </div>
                 <p className="mt-1 text-sm text-gray-600">
                   Covers {matchingCounties.length} of your count{matchingCounties.length !== 1 ? 'ies' : 'y'}:{' '}
-                  {matchingCounties
-                    .map((c) =>
-                      c
-                        .split(' ')
-                        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                        .join(' ')
-                    )
-                    .join(', ')}
+                  {matchingCounties.map(formatCountyName).join(', ')}
                 </p>
               </li>
             )
