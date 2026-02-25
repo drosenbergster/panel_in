@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://panelin.org
+
+# Sitemaps
+Sitemap: https://panelin.org/sitemap.xml
