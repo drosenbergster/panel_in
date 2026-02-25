@@ -1,8 +1,10 @@
 # Panel In — Project Status
 
-**Last updated:** 2026-02-24
+**Last updated:** 2026-02-25
 
-## Current Phase: Solutioning Complete — Ready for Implementation (Phase 4 of 4)
+## Current Phase: Soft Launch — Jenny Feedback Phase
+
+All 6 epics (26 stories) are implemented, deployed, and live at [panelin.vercel.app](https://panelin.vercel.app).
 
 ### Phase Progress
 
@@ -10,44 +12,37 @@
 |-------|--------|-----------------|
 | **1. Analysis** | Complete | Product brief, domain research, content research sprint |
 | **2. Planning** | Complete | PRD (45 FRs, 32 NFRs, 6 user journeys), UX Design Specification |
-| **3. Solutioning** | **Complete** | Architecture Decision Document, Epics & Stories (6 epics, 26 stories) |
-| **4. Implementation** | **Ready to Start** | Begin with Epic 1 Story 1.1 |
+| **3. Solutioning** | Complete | Architecture Decision Document, Epics & Stories (6 epics, 26 stories) |
+| **4. Implementation** | **Complete** | All 26 stories delivered, 130 tests passing, 36 SSG pages |
 
-### Solutioning Completion Detail
+### Implementation Summary
 
-| Deliverable | Status | Location |
-|-------------|--------|----------|
-| Architecture Decision Document | Complete (8 steps) | `_bmad-output/planning-artifacts/architecture.md` |
-| UX Design Specification | Complete (5 steps) | `_bmad-output/planning-artifacts/ux-design-specification.md` |
-| Epics & Stories | Complete (4 steps, validated) | `_bmad-output/planning-artifacts/epics.md` |
-| PRD | Complete (12 steps) | `_bmad-output/planning-artifacts/prd.md` |
-| PRD Validation Report | Complete | `_bmad-output/planning-artifacts/prd-validation-report.md` |
+| Epic | Stories | Status |
+|------|---------|--------|
+| 1: Project Foundation & Personalized Pathway | 5 | Complete |
+| 2: Credentialing Content & Trust System | 8 | Complete |
+| 3: Interactive Progress & User Tools | 5 | Complete |
+| 4: Offline Access & Print | 3 | Complete |
+| 5: Content Governance & Admin | 2 | Complete |
+| 6: Analytics, Monitoring & Launch Readiness | 3 | Complete |
+| **Total** | **26** | **All complete** |
 
-### Epic Summary
+### Post-Implementation (2026-02-25)
 
-| Epic | Stories | Theme |
-|------|---------|-------|
-| 1: Project Foundation & Personalized Pathway | 5 | Walking skeleton — wizard + CCO pathway |
-| 2: Credentialing Content & Trust System | 8 | All content + trust signals |
-| 3: Interactive Progress & User Tools | 5 | Completion tracking, notes, issue reporting |
-| 4: Offline Access & Print | 3 | Service worker + print stylesheet |
-| 5: Content Governance & Admin | 2 | Admin dashboard + staleness alerts |
-| 6: Analytics, Monitoring & Launch Readiness | 3 | Analytics, monitoring, pre-launch gate |
-| **Total** | **26** | |
+| Change | Commit | Description |
+|--------|--------|-------------|
+| UX polish | `151d76f` | Typography plugin, remark-gfm for tables, step heading cards, callout sections, table styling |
+| Security hardening | `967e295` | 7 security headers (CSP, HSTS, etc.), URL protocol validation, path traversal guard, X-Powered-By suppressed |
 
-## Immediate Next Step
+### Content Stats
 
-### Optional but Recommended
+- 16 CCO checklists (15 Oregon CCOs + Medicare/PECOS)
+- 8 guides (NPI, CAQH, OHA MMIS, malpractice, taxonomy, telehealth, mobile clinic, ORS 743B.454)
+- 3 reference pages (credentialing relationships, reimbursement rates, prior authorization)
+- 2 templates (hospital admission plan, seclusion & restraint)
+- 36 total SSG pages
 
-| # | Workflow | Command | Agent | Why |
-|---|----------|---------|-------|-----|
-| 1 | Check Implementation Readiness | `/bmad-bmm-check-implementation-readiness` | Winston (Architect) | Final alignment gate: verifies PRD, UX, Architecture, and Epics are consistent before code is written |
-
-### Then: Begin Implementation
-
-Start a fresh Cursor context and use the handoff prompt below.
-
-## Key Decisions Made During Solutioning
+## Key Decisions
 
 | Decision | Rationale |
 |----------|-----------|
@@ -55,30 +50,24 @@ Start a fresh Cursor context and use the handoff prompt below.
 | Framework-agnostic content | MDX + scripts never import from next/ — survives framework migration |
 | localStorage (no user accounts in v1.0) | 80% of value with 0% infrastructure cost; accounts in v1.1 |
 | Medicare treated as pathway entry alongside CCOs | Consistent hierarchy; same checklist structure |
-| NPI guidance-only (no NPPES API) | No runtime API dependencies in v1.0 |
 | Dedicated Gmail for issue reports | Zero-infrastructure feedback loop; mailto: with pre-populated context |
-| Admin page at /admin (build-time generated) | Content freshness visibility without auth infrastructure |
-| Content authoring stories included in epics | Content IS the product; code without content proves nothing |
 | Shared credentialing visually grouped on dashboard | CareOregon (3 CCOs) and PacificSource (2 areas) — major "aha!" moment |
-| Private annotations + Copy-Paste Station in v1.0 | User-requested; improves Jenny's workflow during actual form-filling |
 
 ## Open Items & Risks
 
 | Item | Type | Priority | Notes |
 |------|------|----------|-------|
-| Content for Features 7-10 at 60-80% depth | Content gap | High | Will launch with honest gap signaling per Do No Harm |
-| January 2027 State Plan Transition | Regulatory risk | High | Content sprint required; all CCO coverage refs may need updating |
-| HB 4083 bill progress | Strategic monitoring | Medium | Track through 2026 session; scenario plans documented in PRD |
+| 3 CCOs at `gap` confidence | Content gap | High | Advanced Health, Cascade, Yamhill need direct CCO verification |
+| Jenny dry run feedback | Validation | High | Jenny needs to walk full pathway and report back |
+| January 2027 State Plan Transition | Regulatory risk | High | Content sprint required when details are published |
+| HB 4083 bill progress | Strategic monitoring | Medium | Track through 2026 session |
 | Jenny CCO outreach (2 remaining emails) | Content research | Medium | See `jenny-questions-for-ccos.md` |
-| Single maintainer (Fam) bus factor | Operational risk | Medium | Mitigated by MDX version control + community contributions |
-| NFR9a/9b link integrity checking | Minor implementation gap | Low | Add internal link check to build script; external link check to GitHub Action |
+| Source URL link integrity checking | Implementation gap | Low | Add to build script or GitHub Action |
 
-## Development Timeline (Planned)
+## Next Steps
 
-| Week | Milestone | Deliverable |
-|------|-----------|-------------|
-| 1-2 | Walking skeleton | County Router + EOCCO checklist live on Vercel |
-| 2-4 | Content expansion | Remaining 8 CCO checklists + prerequisites (NPI, CAQH, taxonomy, credentials) |
-| 4-5 | Reference layer | Features 7-10 at available content depth |
-| 5-6 | Integration + Jenny dry run | Pre-launch acceptance gate (4 verification checks) |
-| 6-7 | Launch + buffer | Fixes from Jenny's review, final deploy |
+1. **Jenny dry run** — Walk full 9-CCO + Medicare pathway, report issues
+2. **CCO outreach** — Verify enrollment steps for 3 gap-confidence CCOs
+3. **Source URL check** — Verify all `source_url` frontmatter links resolve
+4. **Phone/email spot-check** — Test contact info in checklists
+5. **Content iteration** — Update checklists based on Jenny's feedback

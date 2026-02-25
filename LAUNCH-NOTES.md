@@ -5,8 +5,28 @@
 ## Status: Soft Launch (Jenny Feedback Phase)
 
 All 6 epics (26 stories) are implemented. The application is deployed and
-functional. Jenny can begin working through her full pathway and providing
-feedback.
+functional at [panelin.vercel.app](https://panelin.vercel.app). Jenny can
+begin working through her full pathway and providing feedback.
+
+## Post-Launch Updates (2026-02-25)
+
+### UX Polish (`151d76f`)
+- Installed `@tailwindcss/typography` — prose class now renders proper headings, lists, paragraphs
+- Installed `remark-gfm` — markdown tables render as styled HTML instead of raw pipe text
+- Step headings redesigned as bordered cards with numbered circle buttons
+- "Before You Start" sections styled as blue callouts with clipboard icon
+- "Critical:" sections styled as amber warning callouts
+- Non-step headings get gray left-border accent
+- Tables get rounded borders, gray header row, alternating backgrounds
+- TimeEstimate restyled as pill badge with clock icon
+- Duplicate H1 from MDX content suppressed
+
+### Security Hardening (`967e295`)
+- Added 7 security headers: HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control
+- Suppressed `X-Powered-By: Next.js` header
+- Added URL protocol whitelist in MDX link component (blocks `javascript:`/`data:` URIs)
+- Added slug regex validation + `path.resolve()` guard in content loader
+- Full security audit completed: 0 npm vulnerabilities, no secrets in codebase, all inputs safe
 
 ## Known Confidence Gaps
 
@@ -31,6 +51,8 @@ published materials but not confirmed end-to-end with the CCO).
 - [x] npm audit: 0 vulnerabilities
 - [x] All tests passing (130/130)
 - [x] Build clean (36 SSG pages, 30 content files)
+- [x] Security audit: headers, XSS, secrets, path traversal — all clear
+- [x] UX audit: typography, tables, visual hierarchy — all fixed
 
 ## Environment Variables (Vercel)
 
