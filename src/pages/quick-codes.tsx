@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 
 import { SEOHead } from '@/components/SEOHead'
+import { useSaveToast } from '@/components/SaveToast'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 interface CodeField {
@@ -53,12 +54,14 @@ function CopyButton({ value }: { value: string }) {
 
 export default function QuickCodesPage() {
   const [codes, setCodes, hydrated] = useLocalStorage<CodeValues>('quickCodes', {})
+  const { showSaved } = useSaveToast()
 
   const updateField = useCallback(
     (key: string, value: string) => {
       setCodes((prev) => ({ ...prev, [key]: value }))
+      showSaved()
     },
-    [setCodes]
+    [setCodes, showSaved]
   )
 
   return (

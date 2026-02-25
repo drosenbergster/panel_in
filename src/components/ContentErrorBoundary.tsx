@@ -39,12 +39,25 @@ export class ContentErrorBoundary extends Component<Props, State> {
           <p className="text-sm font-medium text-red-800">
             This content couldn&apos;t be loaded.
           </p>
-          <a
-            href={`mailto:feedback@panelin.org?subject=${subject}&body=${body}`}
-            className="mt-2 inline-block text-sm text-red-700 underline"
-          >
-            Report this issue
-          </a>
+          <p className="mt-2 text-sm text-red-700">
+            Try refreshing the page. If the problem persists, check your
+            internet connection.
+          </p>
+          <div className="mt-3 flex items-center justify-center gap-4">
+            <button
+              onClick={() => window.location.reload()}
+              className="rounded-md bg-red-100 px-3 py-1.5 text-sm font-medium text-red-800 hover:bg-red-200"
+              type="button"
+            >
+              Refresh page
+            </button>
+            <a
+              href={`mailto:feedback@panelin.org?subject=${subject}&body=${body}`}
+              className="text-sm text-red-700 underline"
+            >
+              Report this issue
+            </a>
+          </div>
         </div>
       )
     }
