@@ -1,5 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
+
+vi.mock('next/router', () => ({
+  useRouter: () => ({ push: vi.fn(), pathname: '/' }),
+}))
 
 import Home from '@/pages/index'
 
@@ -34,13 +38,13 @@ describe('Landing page', () => {
     ).toHaveAttribute('href', '/start')
   })
 
-  it('shows "Start Over" as secondary option when wizard state exists', () => {
+  it('shows "Start Over" button when wizard state exists', () => {
     localStorage.setItem(
       'wizardState',
       JSON.stringify({ licenseType: 'lcsw', counties: ['baker'], payers: ['medicaid'] })
     )
     render(<Home />)
-    expect(screen.getByRole('link', { name: /start over/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /start over/i })).toBeInTheDocument()
   })
 
   it('renders the three value propositions', () => {

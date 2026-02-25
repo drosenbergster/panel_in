@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
 
 import { SEOHead } from '@/components/SEOHead'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
@@ -8,14 +10,20 @@ import type { WizardState } from '@/types/content'
 const EMPTY_WIZARD: WizardState = { licenseType: '', counties: [], payers: [] }
 
 export default function Home() {
-  const [wizardState] = useLocalStorage<WizardState>('wizardState', EMPTY_WIZARD)
+  const router = useRouter()
+  const [wizardState, setWizardState] = useLocalStorage<WizardState>('wizardState', EMPTY_WIZARD)
   const hasExistingState = wizardState.licenseType !== ''
+
+  const handleStartOver = useCallback(() => {
+    setWizardState(EMPTY_WIZARD)
+    router.push('/start')
+  }, [setWizardState, router])
 
   return (
     <>
       <SEOHead
         title="Panel In"
-        description="Personalized, step-by-step credentialing guidance for Oregon therapists. Answer three questions, get your complete paneling pathway."
+        description="Personalized, step-by-step credentialing guidance for Oregon therapists. Answer three questions to receive your complete paneling pathway."
         path="/"
       />
 
@@ -28,11 +36,11 @@ export default function Home() {
 
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-gray-600">
           Panel In maps your license type and counties to the exact CCOs you
-          need, then walks you through each application. Three questions in,
-          personalized pathway out.
+          need, then walks you through each application. Answer three questions
+          to receive your personalized pathway.
         </p>
 
-        <dl className="mt-8 grid gap-6 sm:grid-cols-3">
+        <dl aria-label="What Panel In offers" className="mt-8 grid gap-6 sm:grid-cols-3">
           <div>
             <dt className="font-semibold text-gray-900">Who it&apos;s for</dt>
             <dd className="mt-1 text-sm leading-relaxed text-gray-600">
@@ -66,12 +74,12 @@ export default function Home() {
               >
                 Continue Your Pathway
               </Link>
-              <Link
-                href="/start"
+              <button
+                onClick={handleStartOver}
                 className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-gray-300 px-6 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
               >
                 Start Over
-              </Link>
+              </button>
             </>
           ) : (
             <Link
@@ -89,7 +97,7 @@ export default function Home() {
           </h2>
           <ol className="mt-4 grid gap-4 sm:grid-cols-3">
             <li className="rounded-lg border border-gray-200 p-4">
-              <span className="text-sm font-semibold text-gray-400">1</span>
+              <span aria-hidden="true" className="text-sm font-semibold text-gray-500">1</span>
               <p className="mt-1 font-medium text-gray-900">
                 Answer three questions
               </p>
@@ -99,7 +107,7 @@ export default function Home() {
               </p>
             </li>
             <li className="rounded-lg border border-gray-200 p-4">
-              <span className="text-sm font-semibold text-gray-400">2</span>
+              <span aria-hidden="true" className="text-sm font-semibold text-gray-500">2</span>
               <p className="mt-1 font-medium text-gray-900">
                 Get your pathway
               </p>
@@ -109,7 +117,7 @@ export default function Home() {
               </p>
             </li>
             <li className="rounded-lg border border-gray-200 p-4">
-              <span className="text-sm font-semibold text-gray-400">3</span>
+              <span aria-hidden="true" className="text-sm font-semibold text-gray-500">3</span>
               <p className="mt-1 font-medium text-gray-900">
                 Work through each checklist
               </p>
