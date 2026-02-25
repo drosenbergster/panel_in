@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { serialize } from 'next-mdx-remote-client/serialize'
+import remarkGfm from 'remark-gfm'
 import { MDXClient } from 'next-mdx-remote-client/csr'
 
 import { SEOHead } from '@/components/SEOHead'
@@ -198,6 +199,7 @@ export const getStaticProps: GetStaticProps<CcoPageProps> = async ({ params }) =
     source,
     options: {
       parseFrontmatter: false,
+      mdxOptions: { remarkPlugins: [remarkGfm] },
     },
   })
 
