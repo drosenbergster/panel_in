@@ -4,6 +4,7 @@ import { MDXClient } from 'next-mdx-remote-client/csr'
 
 import { SEOHead } from '@/components/SEOHead'
 import { ReportIssueLink } from '@/components/ReportIssueLink'
+import { CommunityLink } from '@/components/CommunityLink'
 import { ContentErrorBoundary } from '@/components/ContentErrorBoundary'
 import { mdxComponents } from '@/lib/mdx-components'
 import { getContentBySlug, getAllContentSlugs } from '@/lib/content'
@@ -63,11 +64,12 @@ export default function TemplatePage({ compiledSource, frontmatter }: TemplatePa
           </article>
         </ContentErrorBoundary>
 
-        <div className="mt-8 border-t border-gray-200 pt-4 print:hidden">
+        <div className="mt-8 space-y-4 border-t border-gray-200 pt-4 print:hidden">
           <ReportIssueLink
             pageTitle={frontmatter.title}
             pageSlug={frontmatter.slug}
           />
+          <CommunityLink />
         </div>
       </div>
     </>

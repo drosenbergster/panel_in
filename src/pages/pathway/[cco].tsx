@@ -10,6 +10,7 @@ import { UnderReviewBanner } from '@/components/UnderReviewBanner'
 import { ReportIssueLink } from '@/components/ReportIssueLink'
 import { ContentErrorBoundary } from '@/components/ContentErrorBoundary'
 import { ChecklistProvider, useChecklist } from '@/components/ChecklistContext'
+import { CommunityLink } from '@/components/CommunityLink'
 import { mdxComponents } from '@/lib/mdx-components'
 import { getContentBySlug, getAllContentSlugs } from '@/lib/content'
 
@@ -161,11 +162,12 @@ export default function CcoPage({ compiledSource, frontmatter, totalSteps }: Cco
             </article>
           </ContentErrorBoundary>
 
-          <div className="mt-8 border-t border-gray-200 pt-4">
+          <div className="mt-8 space-y-4 border-t border-gray-200 pt-4">
             <ReportIssueLink
               pageTitle={frontmatter.title}
               pageSlug={frontmatter.slug}
             />
+            <CommunityLink />
           </div>
         </div>
       </ChecklistProvider>
