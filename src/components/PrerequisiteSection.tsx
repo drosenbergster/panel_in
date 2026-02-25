@@ -1,8 +1,15 @@
+import Link from 'next/link'
+
+import { ConfidenceBadge } from './ConfidenceBadge'
+
 import prerequisites from '@/data/prerequisites.json'
+
+import type { ConfidenceLevel } from '@/types/content'
 
 interface PrerequisiteItem {
   slug: string
   title: string
+  confidence: ConfidenceLevel
 }
 
 export function PrerequisiteSection() {
@@ -21,9 +28,15 @@ export function PrerequisiteSection() {
         {items.map((item) => (
           <li
             key={item.slug}
-            className="rounded-lg border border-gray-200 p-3 text-sm font-medium text-gray-900"
+            className="flex min-h-[44px] items-center justify-between rounded-lg border border-gray-200 p-3"
           >
-            {item.title}
+            <Link
+              href={`/guides/${item.slug}`}
+              className="text-sm font-medium text-gray-900 underline decoration-gray-300 underline-offset-2 hover:decoration-gray-900"
+            >
+              {item.title}
+            </Link>
+            <ConfidenceBadge level={item.confidence} />
           </li>
         ))}
       </ul>
