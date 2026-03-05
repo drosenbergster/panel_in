@@ -1,7 +1,7 @@
 {
   "name": "Panel In — Oregon Therapist Credentialing",
   "short_name": "Panel In",
-  "description": "Step-by-step credentialing guidance for Oregon therapists joining Medicaid CCO networks.",
+  "description": "Step-by-step credentialing guidance for Oregon therapists — Medicaid CCOs, Medicare, and TRICARE / VA Community Care.",
   "start_url": "/start",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -45,12 +45,12 @@ published materials but not confirmed end-to-end with the CCO).
 ## Pre-Launch Manual Checklist
 
 - [ ] Primary Source Cross-Check: Verify each `source_url` resolves
-- [ ] Jenny Dry Run: Walk full pathway (9 CCOs + Medicare)
+- [ ] Jenny Dry Run: Walk full pathway (9 CCOs + Medicare + TriWest)
 - [ ] Contact Verification: Test phone numbers, emails, portal URLs
 - [ ] Statutory Citation Check: ORS/OAR citations vs oregonlegislature.gov
 - [x] npm audit: 0 vulnerabilities
-- [x] All tests passing (130/130)
-- [x] Build clean (36 SSG pages, 30 content files)
+- [x] All tests passing (134/134)
+- [x] Build clean (37 SSG pages, 31 content files)
 - [x] Security audit: headers, XSS, secrets, path traversal — all clear
 - [x] UX audit: typography, tables, visual hierarchy — all fixed
 

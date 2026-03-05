@@ -80,8 +80,8 @@ describe('credentialing parent assertions', () => {
 })
 
 describe('cco-content-index', () => {
-  it('contains exactly 16 entries (15 CCOs + Medicare)', () => {
-    expect(Object.keys(ccoContentIndex)).toHaveLength(16)
+  it('contains exactly 17 entries (15 CCOs + Medicare + TriWest)', () => {
+    expect(Object.keys(ccoContentIndex)).toHaveLength(17)
   })
 
   it('includes medicare entry with checklist', () => {

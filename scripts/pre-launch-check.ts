@@ -85,7 +85,7 @@ function runChecks(): void {
 
   console.log('\n--- Manual Verification Checklist ---')
   console.log('  [ ] Primary Source Cross-Check: Verify each source_url resolves and matches guidance')
-  console.log('  [ ] Jenny Dry Run: Walk full pathway (9 CCOs + Medicare) through Panel In')
+  console.log('  [ ] Jenny Dry Run: Walk full pathway (9 CCOs + Medicare + TriWest) through Panel In')
   console.log('  [ ] Contact Verification: Test all phone numbers, emails, portal URLs')
   console.log('  [ ] Statutory Citation Check: Verify ORS/OAR citations against oregonlegislature.gov')
   console.log('  [ ] npm audit: Run `npm audit` and confirm zero critical/high vulnerabilities')

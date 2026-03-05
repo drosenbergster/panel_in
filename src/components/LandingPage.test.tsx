@@ -50,8 +50,8 @@ describe('Landing page', () => {
   it('renders the three value propositions', () => {
     render(<Home />)
     expect(screen.getByText("Who it's for")).toBeInTheDocument()
-    expect(screen.getByText('What it does')).toBeInTheDocument()
-    expect(screen.getByText('Why it exists')).toBeInTheDocument()
+    expect(screen.getByText('Less confusion')).toBeInTheDocument()
+    expect(screen.getByText('More access')).toBeInTheDocument()
   })
 
   it('renders how-it-works steps', () => {

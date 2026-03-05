@@ -25,8 +25,9 @@ describe('CcoCard', () => {
         />
       </ul>
     )
-    const link = screen.getByRole('link', { name: 'EOCCO' })
+    const link = screen.getByRole('link')
     expect(link).toHaveAttribute('href', '/pathway/eocco')
+    expect(screen.getByText('EOCCO')).toBeInTheDocument()
     expect(screen.getByText('1.')).toBeInTheDocument()
   })
 

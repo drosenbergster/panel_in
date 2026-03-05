@@ -18,10 +18,17 @@ import { getContentBySlug, getAllContentSlugs } from '@/lib/content'
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import type { ContentFrontmatter } from '@/types/content'
 
+interface SectionHeading {
+  id: string
+  label: string
+  isStep: boolean
+}
+
 interface CcoPageProps {
   compiledSource: string
   frontmatter: ContentFrontmatter
   totalSteps: number
+  sections: SectionHeading[]
 }
 
 function isRecentlyUpdated(dateStr: string): boolean {
@@ -92,7 +99,31 @@ function ChecklistProgressBar({ slug, totalSteps }: { slug: string; totalSteps: 
   )
 }
 
-export default function CcoPage({ compiledSource, frontmatter, totalSteps }: CcoPageProps) {
+function SectionNav({ sections }: { sections: SectionHeading[] }) {
+  if (sections.length < 4) return null
+
+  return (
+    <nav className="mt-4 rounded-lg border border-gray-200 bg-gray-50/50 p-4 print:hidden">
+      <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+        On this page
+      </p>
+      <ol className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+        {sections.map((s) => (
+          <li key={s.id}>
+            <a
+              href={`#${s.id}`}
+              className="text-sm text-gray-600 underline decoration-gray-300 underline-offset-2 hover:text-gray-900 hover:decoration-gray-900"
+            >
+              {s.label}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+export default function CcoPage({ compiledSource, frontmatter, totalSteps, sections }: CcoPageProps) {
   const recentlyUpdated = isRecentlyUpdated(frontmatter.last_updated)
 
   return (
@@ -151,6 +182,8 @@ export default function CcoPage({ compiledSource, frontmatter, totalSteps }: Cco
 
           <ChecklistProgressBar slug={frontmatter.slug} totalSteps={totalSteps} />
 
+          <SectionNav sections={sections} />
+
           <ContentErrorBoundary
             pageTitle={frontmatter.title}
             pageSlug={frontmatter.slug}
@@ -189,11 +222,33 @@ function countStepHeadings(content: string): number {
   return matches ? matches.length : 0
 }
 
+function extractSections(content: string): SectionHeading[] {
+  const headingRegex = /^##\s+(.+)$/gm
+  const sections: SectionHeading[] = []
+  let match: RegExpExecArray | null
+
+  while ((match = headingRegex.exec(content)) !== null) {
+    const raw = match[1].trim()
+    const isStep = /^(Step|Stage)\s+\d+/i.test(raw)
+    const label = raw.replace(/^(?:Step|Stage)\s+\d+:\s*/i, '')
+    const id = isStep
+      ? raw.match(/^(Step|Stage)\s+(\d+)/i)
+        ? `${raw.match(/^(Step|Stage)/i)![1].toLowerCase()}-${raw.match(/(\d+)/i)![1]}`
+        : raw.toLowerCase().replace(/\s+/g, '-')
+      : raw.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
+    sections.push({ id, label, isStep })
+  }
+
+  return sections
+}
+
 export const getStaticProps: GetStaticProps<CcoPageProps> = async ({ params }) => {
   const slug = params!.cco as string
   const { source, frontmatter } = getContentBySlug('cco', slug)
 
   const totalSteps = frontmatter.total_steps ?? countStepHeadings(source)
+  const sections = extractSections(source)
 
   const mdxSource = await serialize({
     source,
@@ -212,6 +267,7 @@ export const getStaticProps: GetStaticProps<CcoPageProps> = async ({ params }) =
       compiledSource: mdxSource.compiledSource,
       frontmatter,
       totalSteps,
+      sections,
     },
   }
 }

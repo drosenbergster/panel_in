@@ -178,4 +178,52 @@ describe('PathwayDashboard', () => {
       screen.getByRole('button', { name: /change selections/i })
     ).toBeInTheDocument()
   })
+
+  it('shows TriWest section when payer selected', () => {
+    render(
+      <PathwayDashboard
+        wizardState={{ ...wizardState, payers: ['medicaid', 'triwest'] }}
+        pathway={pathway}
+        onChangeSelections={vi.fn()}
+      />
+    )
+    expect(
+      screen.getByText('TriWest Healthcare Alliance (TRICARE & VA Community Care)')
+    ).toBeInTheDocument()
+  })
+
+  it('hides TriWest section when not selected', () => {
+    render(
+      <PathwayDashboard
+        wizardState={{ ...wizardState, payers: ['medicaid'] }}
+        pathway={pathway}
+        onChangeSelections={vi.fn()}
+      />
+    )
+    expect(
+      screen.queryByText('TriWest Healthcare Alliance (TRICARE & VA Community Care)')
+    ).not.toBeInTheDocument()
+  })
+
+  it('counts TriWest in total applications', () => {
+    render(
+      <PathwayDashboard
+        wizardState={{ ...wizardState, payers: ['medicaid', 'medicare', 'triwest'] }}
+        pathway={pathway}
+        onChangeSelections={vi.fn()}
+      />
+    )
+    expect(screen.getByText(/5 applications covering 3 counties/)).toBeInTheDocument()
+  })
+
+  it('shows Federal Programs heading when federal payer selected', () => {
+    render(
+      <PathwayDashboard
+        wizardState={{ ...wizardState, payers: ['medicaid', 'triwest'] }}
+        pathway={pathway}
+        onChangeSelections={vi.fn()}
+      />
+    )
+    expect(screen.getByText('Federal Programs')).toBeInTheDocument()
+  })
 })

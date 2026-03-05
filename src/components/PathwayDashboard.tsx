@@ -89,7 +89,9 @@ export function PathwayDashboard({
   const groups = groupByCredentialing(pathway)
   const coveredCounties = countTotalCoveredCounties(pathway, wizardState.counties)
   const totalApps =
-    pathway.length + (wizardState.payers.includes('medicare') ? 1 : 0)
+    pathway.length +
+    (wizardState.payers.includes('medicare') ? 1 : 0) +
+    (wizardState.payers.includes('triwest') ? 1 : 0)
 
   let runningIndex = 1
 
@@ -169,25 +171,85 @@ export function PathwayDashboard({
         </div>
       </section>
 
-      {wizardState.payers.includes('medicare') && (
+      {(wizardState.payers.includes('medicare') ||
+        wizardState.payers.includes('triwest')) && (
         <section className="mt-6">
-          <div className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300">
-            <span aria-hidden="true" className="text-sm font-semibold text-gray-500">
-              {pathway.length + 1}.
-            </span>{' '}
-            <Link
-              href="/pathway/medicare-pecos"
-              className="font-medium text-gray-900 underline decoration-gray-300 underline-offset-2 hover:decoration-gray-900"
-            >
-              Medicare Provider Enrollment (PECOS)
-            </Link>
-            <span className="ml-2 rounded bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
-              partial
-            </span>
-            <p className="mt-1 text-sm text-gray-600">
-              National program — enroll via PECOS after completing CCO
-              applications.
-            </p>
+          <h2 className="text-lg font-semibold text-gray-900">
+            Federal Programs
+          </h2>
+          <div className="mt-4 space-y-4">
+            {wizardState.payers.includes('medicare') && (
+              <Link
+                href="/pathway/medicare-pecos"
+                className="group block rounded-lg border border-gray-200 p-4 transition-all hover:border-gray-300 hover:shadow-sm"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span aria-hidden="true" className="text-sm font-semibold text-gray-500">
+                      {pathway.length + 1}.
+                    </span>{' '}
+                    <span className="font-medium text-gray-900 group-hover:text-gray-700">
+                      Medicare Provider Enrollment (PECOS)
+                    </span>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <span className="rounded bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
+                      partial
+                    </span>
+                    <svg
+                      className="h-4 w-4 text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-gray-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="mt-1 text-sm text-gray-600">
+                  National program — enroll via PECOS after completing CCO
+                  applications.
+                </p>
+              </Link>
+            )}
+            {wizardState.payers.includes('triwest') && (
+              <Link
+                href="/pathway/triwest"
+                className="group block rounded-lg border border-gray-200 p-4 transition-all hover:border-gray-300 hover:shadow-sm"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <span aria-hidden="true" className="text-sm font-semibold text-gray-500">
+                      {pathway.length +
+                        (wizardState.payers.includes('medicare') ? 2 : 1)}
+                      .
+                    </span>{' '}
+                    <span className="font-medium text-gray-900 group-hover:text-gray-700">
+                      TriWest Healthcare Alliance (TRICARE &amp; VA Community Care)
+                    </span>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <span className="rounded bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
+                      partial
+                    </span>
+                    <svg
+                      className="h-4 w-4 text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-gray-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+                <p className="mt-1 text-sm text-gray-600">
+                  Federal programs — serve military families (TRICARE) and Veterans
+                  (VA Community Care) through TriWest.
+                </p>
+              </Link>
+            )}
           </div>
         </section>
       )}

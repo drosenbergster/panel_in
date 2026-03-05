@@ -19,51 +19,61 @@ export function CcoCard({ cco, index, selectedCounties, completedSteps = 0 }: Cc
   const hasProgress = totalSteps > 0
 
   return (
-    <li className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300">
-      <div className="flex items-start justify-between">
-        <div>
-          <span aria-hidden="true" className="text-sm font-semibold text-gray-500">
-            {index}.
-          </span>{' '}
-          <Link
-            href={`/pathway/${cco.slug}`}
-            className="font-medium text-gray-900 underline decoration-gray-300 underline-offset-2 hover:decoration-gray-900"
-          >
-            {cco.title}
-          </Link>
-        </div>
-        <span
-          className={`shrink-0 rounded px-2 py-0.5 text-xs font-medium ${
-            cco.confidence === 'verified'
-              ? 'bg-green-50 text-green-700'
-              : cco.confidence === 'partial'
-                ? 'bg-amber-50 text-amber-700'
-                : 'bg-gray-100 text-gray-600'
-          }`}
-        >
-          {cco.confidence}
-        </span>
-      </div>
-      <p className="mt-1 text-sm text-gray-600">
-        Covers {matchingCounties.length} of your
-        {' '}count{matchingCounties.length !== 1 ? 'ies' : 'y'}:{' '}
-        {matchingCounties.map(formatCountyName).join(', ')}
-      </p>
-      {hasProgress && (
-        <div className="mt-2">
-          <div className="flex items-center gap-2">
-            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-200">
-              <div
-                className="h-full rounded-full bg-green-500 transition-all duration-300"
-                style={{ width: `${totalSteps > 0 ? (completedSteps / totalSteps) * 100 : 0}%` }}
-              />
-            </div>
-            <span className="text-xs text-gray-500">
-              {completedSteps} of {totalSteps}
+    <li className="group rounded-lg border border-gray-200 transition-all hover:border-gray-300 hover:shadow-sm">
+      <Link href={`/pathway/${cco.slug}`} className="block p-4">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start gap-1">
+            <span aria-hidden="true" className="text-sm font-semibold text-gray-500">
+              {index}.
+            </span>{' '}
+            <span className="font-medium text-gray-900 group-hover:text-gray-700">
+              {cco.title}
             </span>
           </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <span
+              className={`rounded px-2 py-0.5 text-xs font-medium ${
+                cco.confidence === 'verified'
+                  ? 'bg-green-50 text-green-700'
+                  : cco.confidence === 'partial'
+                    ? 'bg-amber-50 text-amber-700'
+                    : 'bg-gray-100 text-gray-600'
+              }`}
+            >
+              {cco.confidence}
+            </span>
+            <svg
+              className="h-4 w-4 text-gray-400 transition-transform group-hover:translate-x-0.5 group-hover:text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
         </div>
-      )}
+        <p className="mt-1 text-sm text-gray-600">
+          Covers {matchingCounties.length} of your
+          {' '}count{matchingCounties.length !== 1 ? 'ies' : 'y'}:{' '}
+          {matchingCounties.map(formatCountyName).join(', ')}
+        </p>
+        {hasProgress && (
+          <div className="mt-2">
+            <div className="flex items-center gap-2">
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-200">
+                <div
+                  className="h-full rounded-full bg-green-500 transition-all duration-300"
+                  style={{ width: `${totalSteps > 0 ? (completedSteps / totalSteps) * 100 : 0}%` }}
+                />
+              </div>
+              <span className="text-xs text-gray-500">
+                {completedSteps} of {totalSteps}
+              </span>
+            </div>
+          </div>
+        )}
+      </Link>
     </li>
   )
 }

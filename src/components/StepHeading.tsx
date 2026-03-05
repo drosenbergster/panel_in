@@ -34,9 +34,11 @@ export function StepHeading(props: HTMLAttributes<HTMLHeadingElement>) {
     const isCritical = /^critical/i.test(text) || /^important/i.test(text)
     const isBeforeYouStart = /^before you start/i.test(text)
 
+    const headingId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
     if (isCritical) {
       return (
-        <div className="not-prose mt-8 mb-3 rounded-lg border-l-4 border-amber-400 bg-amber-50 px-4 py-3">
+        <div id={headingId} className="not-prose mt-8 mb-3 scroll-mt-4 rounded-lg border-l-4 border-amber-400 bg-amber-50 px-4 py-3">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-amber-900">
             <svg className="h-5 w-5 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
@@ -49,7 +51,7 @@ export function StepHeading(props: HTMLAttributes<HTMLHeadingElement>) {
 
     if (isBeforeYouStart) {
       return (
-        <div className="not-prose mt-8 mb-3 rounded-lg border-l-4 border-blue-400 bg-blue-50 px-4 py-3">
+        <div id={headingId} className="not-prose mt-8 mb-3 scroll-mt-4 rounded-lg border-l-4 border-blue-400 bg-blue-50 px-4 py-3">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-blue-900">
             <svg className="h-5 w-5 shrink-0 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -61,7 +63,7 @@ export function StepHeading(props: HTMLAttributes<HTMLHeadingElement>) {
     }
 
     return (
-      <div className="not-prose mt-8 mb-3 border-l-4 border-gray-200 pl-4">
+      <div id={headingId} className="not-prose mt-8 mb-3 scroll-mt-4 border-l-4 border-gray-200 pl-4">
         <h2 className="text-lg font-semibold text-gray-900">{props.children}</h2>
       </div>
     )
@@ -75,7 +77,7 @@ export function StepHeading(props: HTMLAttributes<HTMLHeadingElement>) {
   const label = extractStepLabel(props.children)
 
   return (
-    <div className={`not-prose mt-6 rounded-lg border transition-colors ${complete ? 'border-green-200 bg-green-50/40' : 'border-gray-200 bg-white'} p-4`}>
+    <div id={stepId} className={`not-prose mt-6 scroll-mt-4 rounded-lg border transition-colors ${complete ? 'border-green-200 bg-green-50/40' : 'border-gray-200 bg-white'} p-4`}>
       <h2 className="flex items-center gap-3">
         <button
           onClick={() => ctx.toggle(itemId)}

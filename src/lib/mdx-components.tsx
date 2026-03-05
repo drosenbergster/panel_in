@@ -46,14 +46,14 @@ function StyledTd(props: TdHTMLAttributes<HTMLTableCellElement>) {
 }
 
 function StyledTr(props: HTMLAttributes<HTMLTableRowElement>) {
-  return <tr className="border-t border-gray-100 even:bg-gray-50/50" {...props} />
+  return <tr className="border-t border-gray-100 even:bg-gray-50" {...props} />
 }
 
 function isSafeUrl(url: string | undefined): boolean {
   if (!url) return false
   try {
     const parsed = new URL(url, 'https://panelin.org')
-    return ['http:', 'https:', 'mailto:'].includes(parsed.protocol)
+    return ['http:', 'https:', 'mailto:', 'tel:'].includes(parsed.protocol)
   } catch {
     return false
   }

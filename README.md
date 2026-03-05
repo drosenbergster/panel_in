@@ -8,11 +8,11 @@ Panel In eliminates the opacity of Oregon's insurance paneling process. A therap
 
 ## The Problem
 
-Oregon has 16 Coordinated Care Organizations (CCOs), each with separate credentialing portals, applications, and provider requirements. 88% of Oregon counties lack adequate behavioral health providers — not because therapists are unwilling, but because the administrative path to practicing is impenetrable. Panel In is the credentialing department a solo practitioner can't afford to hire.
+Oregon has 16 Coordinated Care Organizations (CCOs), each with separate credentialing portals, applications, and provider requirements. Add federal programs like Medicare and TRICARE / VA Community Care, and a solo practitioner faces dozens of applications across disconnected systems. 88% of Oregon counties lack adequate behavioral health providers — not because therapists are unwilling, but because the administrative path to practicing is impenetrable. Panel In is the credentialing department a solo practitioner can't afford to hire.
 
 ## Primary User
 
-Jenny — a licensed clinical social worker launching a mobile clinic and telehealth practice across 21 Oregon counties (14 in-person, 7 telehealth-only), spanning 9 CCOs and Medicare. Jenny is real. Her successful paneling is the product's first validation.
+Jenny — a licensed clinical social worker launching a mobile clinic and telehealth practice across 21 Oregon counties (14 in-person, 7 telehealth-only), spanning 9 CCOs, Medicare, and TRICARE / VA Community Care (TriWest). Jenny is real. Her successful paneling is the product's first validation.
 
 ## Technical Overview
 
@@ -26,7 +26,7 @@ Jenny — a licensed clinical social worker launching a mobile clinic and telehe
 | **Offline** | Serwist service worker (cache-first for content) |
 | **Analytics** | Privacy-respecting (Plausible, no cookies, no PII) |
 | **Auth** | None in v1.0 (localStorage only; accounts planned for v1.1) |
-| **Tests** | 130 passing (Vitest + Testing Library) |
+| **Tests** | 134 passing (Vitest + Testing Library) |
 | **Security** | Full CSP, HSTS, X-Frame-Options, URL validation, path traversal guards |
 
 ## Project Status
@@ -37,9 +37,9 @@ See [docs/project-status.md](docs/project-status.md) for detailed progress and [
 
 ## Features
 
-- **3-step intake wizard** — license type, counties, payer selection
-- **Personalized pathway dashboard** — grouped by credentialing parent (CareOregon, PacificSource)
-- **16 CCO checklists** — step-by-step with interactive progress tracking
+- **3-step intake wizard** — license type, counties, payer selection (Medicaid, Medicare, TRICARE / VA Community Care)
+- **Personalized pathway dashboard** — CCOs grouped by credentialing parent, federal programs in dedicated section
+- **17 checklists** — 15 Oregon CCOs + Medicare/PECOS + TriWest (TRICARE & VA Community Care), all with interactive progress tracking
 - **5 prerequisite guides** — NPI, CAQH, OHA MMIS, malpractice insurance, taxonomy codes
 - **Reference pages** — credentialing relationships, reimbursement rates, prior authorization
 - **Templates** — hospital admission plan, seclusion & restraint policy letter
@@ -55,7 +55,7 @@ See [docs/project-status.md](docs/project-status.md) for detailed progress and [
 ```
 panel_in/
 ├── content/                           # MDX content files
-│   ├── cco/                           # 16 CCO checklists
+│   ├── cco/                           # 17 checklists (15 CCOs + Medicare + TriWest)
 │   ├── guides/                        # 8 prerequisite & supplemental guides
 │   ├── reference/                     # 3 reference pages
 │   └── templates/                     # 2 downloadable templates
@@ -94,8 +94,8 @@ Panel In launches into a regulatory inflection point (2026-2028):
 ```bash
 npm install
 npm run dev          # Start dev server (localhost:3000)
-npm test             # Run unit tests (130 passing)
-npm run build        # Production build (36 SSG pages)
+npm test             # Run unit tests (134 passing)
+npm run build        # Production build (37 SSG pages)
 npm run pre-launch   # Content health check
 ```
 

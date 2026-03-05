@@ -20,8 +20,21 @@ const LICENSE_TYPES = [
 ]
 
 const PAYER_OPTIONS = [
-  { value: 'medicaid', label: 'Medicaid / OHP' },
-  { value: 'medicare', label: 'Medicare' },
+  {
+    value: 'medicaid',
+    label: 'Medicaid / OHP',
+    description: 'Oregon Health Plan — credential with CCOs based on the counties you serve.',
+  },
+  {
+    value: 'medicare',
+    label: 'Medicare',
+    description: 'Federal program — enroll via PECOS to bill Medicare directly, statewide.',
+  },
+  {
+    value: 'triwest',
+    label: 'TRICARE / VA Community Care (TriWest)',
+    description: 'Serve military families and Veterans through TriWest\'s federal networks.',
+  },
 ]
 
 interface IntakeFormProps {
@@ -101,14 +114,14 @@ export function IntakeForm({ onComplete, initialValues }: IntakeFormProps) {
           <p className="mt-1 text-sm text-gray-600">
             Select the license you&apos;ll use for billing.
           </p>
-          <div className="mt-4 flex flex-col gap-2">
+          <div className="mt-4 flex flex-col gap-3">
             {LICENSE_TYPES.map((lt) => (
               <label
                 key={lt.value}
-                className={`flex min-h-[44px] cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-colors ${
+                className={`flex min-h-[44px] cursor-pointer items-center gap-3 rounded-lg border-2 px-4 py-3 transition-all ${
                   licenseType === lt.value
-                    ? 'border-gray-900 bg-gray-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-gray-900 bg-gray-100 shadow-sm'
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <input
@@ -144,14 +157,14 @@ export function IntakeForm({ onComplete, initialValues }: IntakeFormProps) {
               </span>
             )}
           </p>
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {OREGON_COUNTIES.map((county) => (
               <label
                 key={county}
-                className={`flex min-h-[44px] cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-colors ${
+                className={`flex min-h-[44px] cursor-pointer items-center gap-2 rounded-lg border-2 px-3 py-2.5 text-sm transition-all ${
                   counties.includes(county)
-                    ? 'border-gray-900 bg-gray-50 font-medium text-gray-900'
-                    : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                    ? 'border-gray-900 bg-gray-100 font-medium text-gray-900 shadow-sm'
+                    : 'border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <input
@@ -175,23 +188,26 @@ export function IntakeForm({ onComplete, initialValues }: IntakeFormProps) {
           <p className="mt-1 text-sm text-gray-600">
             Select the insurance pathways you want to pursue.
           </p>
-          <div className="mt-4 flex flex-col gap-2">
+          <div className="mt-4 flex flex-col gap-3">
             {PAYER_OPTIONS.map((po) => (
               <label
                 key={po.value}
-                className={`flex min-h-[44px] cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-colors ${
+                className={`flex min-h-[44px] cursor-pointer items-start gap-3 rounded-lg border-2 px-4 py-3.5 transition-all ${
                   payers.includes(po.value)
-                    ? 'border-gray-900 bg-gray-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-gray-900 bg-gray-100 shadow-sm'
+                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <input
                   type="checkbox"
                   checked={payers.includes(po.value)}
                   onChange={() => togglePayer(po.value)}
-                  className="h-4 w-4 accent-gray-900"
+                  className="mt-0.5 h-4 w-4 accent-gray-900"
                 />
-                <span className="font-medium text-gray-900">{po.label}</span>
+                <div>
+                  <span className="font-medium text-gray-900">{po.label}</span>
+                  <p className="mt-0.5 text-sm text-gray-500">{po.description}</p>
+                </div>
               </label>
             ))}
           </div>
